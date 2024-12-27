@@ -1,32 +1,17 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+// filepath: /c:/Users/sindh/solana-transaction-monitor/solana-transaction-monitor/src/app/layout.tsx
+import React from 'react';
+import { Noto_Sans, Roboto_Mono } from 'next/font/google';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+const robotoSans = Noto_Sans({ subsets: ['latin'], variable: '--font-roboto-sans' });
+const robotoMono = Roboto_Mono({ subsets: ['latin'], variable: '--font-roboto-mono', weight: '400' });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export const metadata: Metadata = {
-  title: "Solana Transaction Monitor",
-  description: "Real-time monitoring of Solana transactions",
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white`}
-      >
+      <head>
+        <title>Solana Transaction Monitor</title>
+      </head>
+      <body className={`${robotoSans.variable} ${robotoMono.variable} antialiased bg-white`}>
         <div className="min-h-screen">
           {children}
         </div>

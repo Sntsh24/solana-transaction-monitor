@@ -117,24 +117,30 @@ const getTokenMetadata = async (tokenAddress: string) => {
     }
 };
 
-const connection = (() => {
-    if (!HELIUS_RPC_URL) {
-        throw new Error('Helius RPC URL not configured');
+let connection: Connection | null = null;
+
+const getConnection = () => {
+    if (!connection) {
+        if (!HELIUS_RPC_URL) {
+            throw new Error('Helius RPC URL not configured');
+        }
+        connection = new Connection(HELIUS_RPC_URL, {
+            commitment: 'confirmed',
+            confirmTransactionInitialTimeout: 60000
+        });
     }
-    return new Connection(HELIUS_RPC_URL, {
-        commitment: 'confirmed',
-        confirmTransactionInitialTimeout: 60000
-    });
-})();
+    return connection;
+};
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 export const getTokenTransfers = async (limit: number = 5): Promise<TokenTransfer[]> => {
     try {
+        const conn = getConnection();
         const programId = new PublicKey(TOKEN_PROGRAM_ID);
         await sleep(1000);
 
-        const signatures = await connection.getSignaturesForAddress(
+        const signatures = await conn.getSignaturesForAddress(
             programId,
             { limit: limit * 2 }
         );
@@ -146,7 +152,7 @@ export const getTokenTransfers = async (limit: number = 5): Promise<TokenTransfe
                 if (transfers.length >= limit) break;
                 await sleep(1000);
 
-                const tx = await connection.getParsedTransaction(sig.signature, {
+                const tx = await conn.getParsedTransaction(sig.signature, {
                     maxSupportedTransactionVersion: 0
                 });
 

@@ -44,15 +44,20 @@ export interface OreMetrics {
     }>;
 }
 
-const connection = (() => {
-    if (!HELIUS_RPC_URL) {
-        throw new Error('Helius RPC URL not configured');
+let connection: Connection | null = null;
+
+const getConnection = () => {
+    if (!connection) {
+        if (!HELIUS_RPC_URL) {
+            throw new Error('Helius RPC URL not configured');
+        }
+        connection = new Connection(HELIUS_RPC_URL, {
+            commitment: 'confirmed',
+            confirmTransactionInitialTimeout: 60000
+        });
     }
-    return new Connection(HELIUS_RPC_URL, {
-        commitment: 'confirmed',
-        confirmTransactionInitialTimeout: 60000
-    });
-})();
+    return connection;
+};
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -85,10 +90,11 @@ export const getOreTransactions = async (limit: number = 50): Promise<OreTransac
             throw new Error('ORE token mint address not configured');
         }
 
+        const conn = getConnection();
         const oreMint = new PublicKey(ORE_TOKEN_MINT);
 
         // Get signatures for the ORE token
-        const signatures = await connection.getSignaturesForAddress(
+        const signatures = await conn.getSignaturesForAddress(
             oreMint,
             { limit: limit * 2 }
         );
@@ -100,7 +106,7 @@ export const getOreTransactions = async (limit: number = 50): Promise<OreTransac
                 if (transactions.length >= limit) break;
                 await sleep(500); // Rate limiting
 
-                const tx = await connection.getParsedTransaction(sig.signature, {
+                const tx = await conn.getParsedTransaction(sig.signature, {
                     maxSupportedTransactionVersion: 0
                 });
 

@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Solana Transaction Monitor
 
-## Getting Started
+A real-time DCA pattern detection and monitoring tool for Solana blockchain transactions. Features a dedicated **$ORE Token Dashboard** with whale tracking, DCA detection, and advanced filtering.
 
-First, run the development server:
+## Features
+
+### Main Monitor
+- Real-time token transfer monitoring
+- Token metadata (name, symbol, market cap)
+- Pump.fun and DEXScreener integration
+- Auto-refresh every 10 seconds
+
+### $ORE Token Dashboard
+- **DCA Pattern Detection** - Automatically identifies wallets doing dollar-cost averaging (buy or sell)
+- **Whale Tracking** - Highlights transactions over 1000 ORE
+- **Advanced Filtering** - Filter by type (buy/sell), time range, amount, and whale-only
+- **Real-time Metrics** - Price, market cap, volume, whale count, active DCA strategies
+- **Three View Modes** - Transactions, DCA Patterns, and Whales
+
+## Setup
+
+### 1. Install Dependencies
+
+```bash
+npm install
+```
+
+### 2. Configure Environment Variables
+
+Create a `.env.local` file in the root directory:
+
+```bash
+NEXT_PUBLIC_HELIUS_RPC_URL=https://mainnet.helius-rpc.com/?api-key=YOUR_API_KEY
+```
+
+Get your free Helius API key at: https://helius.dev
+
+### 3. Run Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Usage
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Main Monitor**: http://localhost:3000/
+- **$ORE Dashboard**: http://localhost:3000/ore
 
-## Learn More
+## Deploy to Vercel
 
-To learn more about Next.js, take a look at the following resources:
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for step-by-step deployment instructions to access the dashboard on your phone or from anywhere.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Quick Deploy:**
+1. Go to [vercel.com](https://vercel.com)
+2. Import this repository
+3. Add `NEXT_PUBLIC_HELIUS_RPC_URL` environment variable
+4. Deploy!
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Tech Stack
 
-## Deploy on Vercel
+- **Next.js 14** - React framework
+- **TypeScript** - Type safety
+- **Tailwind CSS** - Styling
+- **Solana Web3.js** - Blockchain interaction
+- **Helius RPC** - Transaction data
+- **Jupiter API** - Token pricing and market data
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## DCA Detection Algorithm
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The app identifies DCA patterns by:
+1. Grouping transactions by wallet address
+2. Analyzing transaction frequency and regularity
+3. Detecting patterns with 3+ similar transactions
+4. Classifying frequency (hourly, daily, weekly)
+5. Determining if strategy is still active
+
+## Configuration
+
+- **Whale Threshold**: Edit `WHALE_THRESHOLD` in `src/lib/oreMonitor.ts` (default: 1000 ORE)
+- **Update Interval**: Edit `UPDATE_INTERVAL` in components (default: 15 seconds)
+- **Transaction Limit**: Configurable in component settings
+
+## Contributing
+
+Feel free to open issues or submit pull requests!
+
+## License
+
+MIT

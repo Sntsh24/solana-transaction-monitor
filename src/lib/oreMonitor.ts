@@ -2,8 +2,7 @@ import { Connection, PublicKey, ParsedTransactionWithMeta } from '@solana/web3.j
 
 const HELIUS_RPC_URL = process.env.NEXT_PUBLIC_HELIUS_RPC_URL;
 
-// TODO: Replace with actual $ORE token mint address
-export const ORE_TOKEN_MINT = 'PASTE_ORE_MINT_ADDRESS_HERE';
+export const ORE_TOKEN_MINT = 'oreoU2P8bN6jkk3jbaiVxYnG1dCXcYxwhwyK9jSybcp';
 
 export interface OreTransaction {
     signature: string;

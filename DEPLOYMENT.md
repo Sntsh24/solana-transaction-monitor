@@ -20,7 +20,7 @@ Your $ORE Token Dashboard is ready to deploy! Follow these simple steps to acces
 1. Expand **"Environment Variables"** section
 2. Add variable:
    - **Name:** `NEXT_PUBLIC_HELIUS_RPC_URL`
-   - **Value:** Your full Helius RPC URL (e.g., `https://mainnet.helius-rpc.com/?api-key=YOUR_API_KEY`)
+   - **Value:** `https://mainnet.helius-rpc.com/?api-key=bf1fdace-ed05-416f-bc9f-e2f9a209adf9`
    - **Environment:** Production, Preview, Development (select all)
 
 ### Step 4: Deploy

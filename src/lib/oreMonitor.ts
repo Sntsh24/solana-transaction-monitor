@@ -86,10 +86,6 @@ const fetchWithRetry = async (url: string, options: RequestInit, retries = 3) =>
 
 export const getOreTransactions = async (limit: number = 50): Promise<OreTransaction[]> => {
     try {
-        if (ORE_TOKEN_MINT === 'PASTE_ORE_MINT_ADDRESS_HERE') {
-            throw new Error('ORE token mint address not configured');
-        }
-
         const conn = getConnection();
         const oreMint = new PublicKey(ORE_TOKEN_MINT);
 
@@ -264,10 +260,6 @@ const analyzeDCAPattern = (
 
 export const getOreMetrics = async (): Promise<OreMetrics | null> => {
     try {
-        if (ORE_TOKEN_MINT === 'PASTE_ORE_MINT_ADDRESS_HERE') {
-            return null;
-        }
-
         // Fetch price and market data from Jupiter
         const jupiterData = await fetchWithRetry(
             `https://price.jup.ag/v4/price?ids=${ORE_TOKEN_MINT}`,

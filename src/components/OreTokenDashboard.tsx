@@ -58,12 +58,6 @@ export default function OreTokenDashboard() {
 
     const loadData = async () => {
         try {
-            if (ORE_TOKEN_MINT === 'PASTE_ORE_MINT_ADDRESS_HERE') {
-                setError('⚠️ ORE token mint address not configured. Please update ORE_TOKEN_MINT in src/lib/oreMonitor.ts');
-                setLoading(false);
-                return;
-            }
-
             const [txData, metricsData] = await Promise.all([
                 getOreTransactions(100),
                 getOreMetrics()
@@ -125,14 +119,6 @@ export default function OreTokenDashboard() {
                     <div className="text-red-500 text-center">
                         <div className="text-2xl mb-2">⚠️</div>
                         <div>{error}</div>
-                        {ORE_TOKEN_MINT === 'PASTE_ORE_MINT_ADDRESS_HERE' && (
-                            <div className="mt-4 text-sm text-gray-600">
-                                <p>Please provide the $ORE token mint address and update it in:</p>
-                                <code className="block mt-2 p-2 bg-gray-100 rounded">
-                                    src/lib/oreMonitor.ts
-                                </code>
-                            </div>
-                        )}
                     </div>
                 </CardContent>
             </Card>
